@@ -1,0 +1,56 @@
+$clr-1: #ec994b;
+$clr-2: #15133c;
+$clr-3: #4da538;
+$clr-light: #fff;
+$clr-dark: #111;
+
+$font-size: 1.3rem;
+
+.popper{
+	background: red;
+}
+
+.tooltip {
+	$scale: 0;
+	$tooltip-color: gray;
+	$arrow-size: 10px;
+	z-index: 100;
+
+	&:after,
+	&:before {
+		position: absolute;
+		top: -1rem;
+		left: 50%;
+        font-size: $font-size;
+		transform: translateX(-50%) translateY(-100%) scale($scale);
+		transform-origin: bottom center;
+		transition: 100ms transform;
+	}
+
+	&:hover {
+		&:before {
+			transform: translateX(-50%) translateY(-100%) scale(1);
+		}
+		&:after {
+			transform: translateX(-60%) translateY(-5px) scale(1);
+		}
+	}
+
+	&:before {
+		content: attr(data-tooltip);
+		color: $clr-light;
+		padding: 0.5rem;
+		width: max-content;
+		background: $tooltip-color;
+		font-size: $font-size;
+		font-weight: 200;
+		//font-style: italic;
+		border-radius: 5px;
+	}
+
+	&:after {
+		content: "";
+		border: $arrow-size solid transparent;
+		border-top-color: $tooltip-color;
+	}
+}
