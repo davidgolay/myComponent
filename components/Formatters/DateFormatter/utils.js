@@ -1,4 +1,4 @@
-export const grainMatches = (grain) => {
+export const grainMatchTypes = (grain) => {
   let matches = false;
   switch (grain.toString()) {
     case "minutes":
@@ -22,6 +22,10 @@ export const grainMatches = (grain) => {
   }
   return true;
 };
+
+export const grainIsMinutes = (grain) => {
+  return (grain && typeof(grain) !== 'undefined' && grain.toString() === "minutes");
+}
 
 export const hoursMins = (n) => {
   var num = n;

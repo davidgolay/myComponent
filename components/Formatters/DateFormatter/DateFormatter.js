@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { hoursMins, grainMatches, matchingTooltipTypes } from "./utils";
+import { hoursMins, grainMatchTypes, grainIsMinutes, matchingTooltipTypes } from "./utils";
 import stylesTooltip from "../../../components/Tooltips/tooltip.module.scss";
 import stylesComposed from "../../../components/Tooltips/tooltipComposed.module.scss";
 import styles from "./dateFormatter.module.scss";
@@ -11,7 +11,8 @@ import Tooltip from "../../../components/Tooltips/ToolTip";
 
 const DateFormatter = (props) => {
   const [date, setDate] = useState(props.date ? props.date : null);
-  const [dates, setDates] = useState(props.dates ? props.dates : []);
+  const [mode, setMode] = useState(props.mode ? props.mode : 'default');
+  const [secondDate, setSecondDate] = useState(props.secondDate ? props.secondDate : new Date(Date.now()))
   const [format, setFormat] = useState(
     props.format ? props.format : "DD/MM/YYYY"
   );
@@ -20,49 +21,42 @@ const DateFormatter = (props) => {
   );
   const [information, setInformation] = useState("");
 
-  useEffect(() => {
+useEffect(() => {
 
-    let elapsedTimeInformation = "";
+}, [dates, props.dates])
 
-    if (dates && dates.length > 0) {
-      let date1 = dates[0];
-      let date2 = moment();
 
-      if (dates.length > 1) {
-        date2 = dates[1];
-      }
-      let arrow = " 🕑 → ";
+  const getTimespanText = (granularity) => {
+    let text = ''; 
       for (const grain of granularity) {
-        if (grainMatches(grain)) {
-          let diff = moment(props.dates[0]).diff(
-            moment(props.dates[1]),
-            grain.toString()
-          );
-          if (diff > 0) {
-            elapsedTimeInformation = arrow + diff + " " + grain.toString();
-            if (grain.toString() === "minutes") {
-              elapsedTimeInformation = arrow + hoursMins(diff);
-            }
-          } else {
-            if (diff !== 0) {
-              let arrow = " ← 🕑";
-              elapsedTimeInformation = -diff + " " + grain.toString() + arrow;
-              if (grain.toString() === "minutes") {
-                elapsedTimeInformation = hoursMins(-diff) + arrow;
-              }
-            }
+        if (grainMatchTypes(grain)) { //days || minutes || weeks || months ...
+          let datesDiff = moment(date).diff(moment(secondDate), grain);
+          trad = getDynamicTrad(mode, grain, diffDates);
+          text = t(trad.assetID, trad.values);
+          if (grainIsMinutes(grain)) {
+            text = hoursMins(datesDiff);
           }
         }
       }
-      if (elapsedTimeInformation.charAt(elapsedTimeInformation.length - 1) === ",") {
-        elapsedTimeInformation = elapsedTimeInformation.substring(
-          0,
-          elapsedTimeInformation.length - 1
-        );
-      }
-      setInformation(elapsedTimeInformation);
-    }
-  }, [dates, granularity, props.dates]);
+    return text;
+  }
+
+
+
+  const getDynamicTrad = (tradCode, grain, diffDates) => {
+    let tradCode = ['Dates', 'TimeSpan', mode, grain].join('_');
+    let final = t(tradCode, diffDates);
+    if(grainIsMinutes(grain)) {
+      let minutes = diffDates.minutes;
+      let hours = diffDates.hours;
+      final = t(tradCode, {minutes, hours});
+    } 
+
+    
+
+    
+    return modeTrads;
+  }
 
   const renderDefaultTooltip = () => {
     let displayCondition =
