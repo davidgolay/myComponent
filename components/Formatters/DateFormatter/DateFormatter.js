@@ -31,7 +31,7 @@ useEffect(() => {
       for (const grain of granularity) {
         if (grainMatchTypes(grain)) { //days || minutes || weeks || months ...
           let datesDiff = moment(date).diff(moment(secondDate), grain);
-          trad = getDynamicTrad(mode, grain, diffDates);
+          trad = getDynamicTrad(grain, diffDates);
           text = t(trad.assetID, trad.values);
           if (grainIsMinutes(grain)) {
             text = hoursMins(datesDiff);
@@ -43,7 +43,7 @@ useEffect(() => {
 
 
 
-  const getDynamicTrad = (tradCode, grain, diffDates) => {
+  const getDynamicTrad = (grain, diffDates) => {
     let tradCode = ['Dates', 'TimeSpan', mode, grain].join('_');
     let final = t(tradCode, diffDates);
     if(grainIsMinutes(grain)) {
