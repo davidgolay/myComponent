@@ -13,7 +13,7 @@ export default function Home() {
       date: new Date(Date.now()),
       message: "Pour les dates qui depassent.",
       granularity: ['minutes', 'days'],
-      dates: [ moment().add(24, "days").add(35, "minutes"), moment().add(0, "days")],
+      dates: [moment().add(24, "days").add(35, "minutes"), moment().add(0, "days")],
       status: "active",
       tooltip: "normal",
     },
@@ -22,7 +22,7 @@ export default function Home() {
       date: new Date(Date.now()),
       message: "Vous n'êtes pas très beau",
       granularity: ['minutes', 'days'],
-      dates: [ moment().add(0, "days").add(1, "minutes"), moment().add(0, "days").add(238, "minutes")],
+      dates: [moment().add(0, "days").add(1, "minutes"), moment().add(0, "days").add(238, "minutes")],
       status: "stand-by",
       tooltip: "normal",
     },
@@ -32,7 +32,7 @@ export default function Home() {
       message: "Vous n'êtes pas très beau",
       status: "done",
       granularity: ['minutes', 'days', 'weeks', 'months'],
-      dates: [ moment().add(4, "days").add(352, "minutes"), moment().add(48, "days")],
+      dates: [moment().add(4, "days").add(352, "minutes"), moment().add(48, "days")],
       tooltip: "composed",
     },
   ];
@@ -46,7 +46,19 @@ export default function Home() {
       </Head>
 
       <div className={styles.sideblock}>
-        <SplitButton />
+        <div>
+          <SplitButton />
+        </div>
+        <div>
+          <SplitButton />
+        </div>
+        <div>
+          <SplitButton />
+        </div>
+        <div>
+          <SplitButton />
+        </div>
+
       </div>
     </div>
   );

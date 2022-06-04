@@ -1,6 +1,6 @@
 $clr-primary: red;
 $clr-ligth: #f3f3f3;
-$hvr-light: #237d80;
+$hvr-light: #4c9c9c;
 
 $clr-gray: #ccc;
 $clr-dark: #3a6767;
@@ -12,38 +12,40 @@ $bdr-dark-fat: 2px solid $clr-dark;
 
 $rds-medium: 10px;
 
-$delay: 0.3s;
-$curves: ease-out;
+$delay: 0.2s;
+$curves: ease-in-out;
 
 
-.container{
-    margin-right: 54px;
-    .split{
+.container {
+    margin-right: 62px;
+
+    .split {
         position: relative;
         width: max-content;
     }
-    
+
     .option {
         font-size: 1.3rem;
         transition: 0.15s $curves;
         box-sizing: border-box;
-    
+
         .content {
             padding: 10px 20px;
+            text-align: left;
         }
 
-        .icon{
+        .icon {
             padding-left: 20px;
             font-size: 23px;
             font-weight: bold;
         }
-    
+
         &:hover {
             background: $hvr-light;
             color: $clr-ligth;
         }
     }
-    
+
     .button {
         position: relative;
         display: flex;
@@ -51,9 +53,9 @@ $curves: ease-out;
         width: max-content;
         box-sizing: border-box;
         overflow: hidden;
-        
+
     }
-    
+
     .buttonList {
         $os: 20px;
         border: $bdr-dark-fat;
@@ -61,62 +63,75 @@ $curves: ease-out;
         border-top-right-radius: 0;
         box-sizing: border-box;
         overflow: hidden;
-        transform: scaleY(0);
         background: $clr-ligth;
         transform-origin: top;
-        transition: all $delay $curves;
 
-        &.unfold{
+        &.unfold.top {
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-bottom: $bdr-gray-fat;
+        }
+
+        &.fold.bottom {
+            opacity: 0;
+            transform: scale(0);
+            //transition: all $delay $curves;
+
+        }
+
+        &.unfold.bottom {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-top: $bdr-gray-fat;
             transform: scale(1);
-        }
+            border-top: transparent;
+            opacity: 1;
 
-        &.fold{
-            transform: scaleY(0);
-        }
-
-
-        &:hover{
-            box-shadow: $os $os calc($os * 4) rgba($clr-dark, 0.3);
+            &:hover {
+                box-shadow: $os $os calc($os * 4) rgba($clr-dark, 0.1);
+            }
         }
 
         .option {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             border-bottom: $bdr-gray-fat;
             transform-origin: left;
             padding-bottom: 3px;
             transition: all $delay $curves;
+            
 
             &:hover {
                 border-color: transparent;
             }
-    
+
             &:last-child {
                 border-bottom: transparent;
             }
+
         }
 
-        .option.unfold{
+        .option.unfold {
 
             transition: all $delay $curves;
         }
-
     }
 
-    .unfold{
-
+    .buttonListing{
+        position: absolute;
+        top: 52px;
     }
-    
-    .closed{
+
+    .closed {
         border-left-color: transparent;
     }
-    
+
     .buttonArrow {
         position: absolute;
         top: 0;
         left: calc(100% - $brd-width);
-        height: calc(50px + $brd-width_x2);
+        height: 100%;
         border: $bdr-dark-fat;
         border-radius: 0 $rds-medium $rds-medium 0;
         background: $clr-ligth;
@@ -125,44 +140,44 @@ $curves: ease-out;
         justify-items: center;
         box-sizing: border-box;
         transition: all $delay $curves;
-    
-        &:hover{
+
+        &:hover {
             background-color: $hvr-light;
         }
-    
+
         .option {
             font-size: 1.3rem;
             transition: 0.15s $curves;
             box-sizing: border-box;
             transition: all $delay $curves;
-        
+
             .content {
                 transition: all $delay $curves;
                 padding: 50px 20px;
             }
 
-            .reversed{
+            .reversed {
                 transition: all $delay $curves;
                 transform: rotate(-180deg);
             }
-        
+
             &:hover {
                 background: $hvr-light;
                 color: $clr-ligth;
             }
         }
     }
-    
+
     .solo.arrow {
-        border-left-color: transparent;
+        //border-left-color: transparent;
         cursor: zoom-in;
     }
-    
-    .solo.list{
+
+    .solo.list {
         border-bottom-right-radius: 0;
         cursor: col-resize;
 
-        &:before{
+        &:before {
             position: absolute;
             top: 0;
             height: 100%;

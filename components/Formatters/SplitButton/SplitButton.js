@@ -1,24 +1,86 @@
 import { KeyboardTabOutlined } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback, } from "react";
 import { AiOutlineUp as Arrow } from 'react-icons/ai';
+import { CgExport as Export } from 'react-icons/cg';
+import { BsBasket as Basket } from 'react-icons/bs';
+import { MdOutlineAssignmentInd as Assign } from 'react-icons/md';
+import { TbTruckReturn as Return } from 'react-icons/tb';
+
+
+import { ImMagicWand as Magic } from 'react-icons/im';
+
+
+
 
 import styles from "./customSplitButton.module.scss"
 
 const SplitButton = (props) => {
 
-    /**
-     * Is split button state is opened/unfold or closed
-     */
-    const [isUnfold, setIsUnfold] = useState(true); //
-    const [finalOptions, setFinalOptions] = useState([]);
+    //STATES
+    const [currentOption, setCurrentOption] = useState({})
+    const [isUnfold, setIsUnfold] = useState(false);
+    const [extendedOptionsList, setExtendedOptionsList] = useState([]);
     const [totalOptions, setTotalOptions] = useState(0); //Count variable of the total not disabled option
-    const [selected, setSelected] = useState(0);
+    const [selectedId, setSelectedId] = useState(0);
+    const [validate, setValidate] = useState(false);
+    const [width, setWidth] = useState("330px");
 
-    const onClick = () => {
-        return "hello";
-    }
-    //options:
 
+
+    const onClick = useCallback(() => {
+
+    }, [])
+    //options
+    let mock = useMemo(() => [
+        {
+            id: 0,
+            name: "Sauvegarder l'état actuel",
+            icon: <Export />,
+            onClick: (() => onClick()),
+            validationMessage: 'Etes-vous sûr de vouloir sauvegarder cet état?',
+            able: true,
+            width: '320px',
+        },
+        {
+            id: 1,
+            name: 'Provoquer le destin',
+            icon: <Magic />,
+            able: true,
+            width: '260px',
+        },
+        {
+            id: 2,
+            name: 'Exporter mon panier',
+            icon: <Basket />,
+             onClick: (() => onClick()),
+            able: true,
+            width: '280px',
+        },
+        {
+            id: 3,
+            name: 'Retourner produit',
+            icon: <Return />,
+             onClick: (() => onClick()),
+            validationMessage: 'Etes-vous sûr de vouloir retourner ce produit?',
+            able: true,
+            width: '250px',
+        },
+        {
+            id: 4,
+            name: 'Assigner à un collaborateur',
+            icon: <Assign />,
+            onClick: () => onClick(),
+            able: true,
+            width: '340px',
+        },
+        {
+            id: 5,
+            name: 'option Z',
+            icon: <Magic />, onClick: (() => onClick()),
+            able: true,
+            width: '200px',
+        },
+    ]);
 
     const isOptionAble = (option) => {
         let isAble = (option.able === 'true' || option.able === true)
@@ -26,31 +88,44 @@ const SplitButton = (props) => {
     }
 
     useEffect(() => {
-        let mock = [
-            { name: "Sauvegarder l'état actuel", icon: '↧', onClick: onClick(), able: false },
-            { name: 'Provoquer le destin', icon: '↯', onClick: onClick(), able: true },
-            { name: 'Exporter mon panier', icon: '↭', onClick: onClick(), able: false },
-            { name: 'Retourner produit', icon: '↩', onClick: onClick(), able: false },
-            { name: 'Assigner à un collaborateur', icon: '↧', onClick: onClick(), able: true },
-            { name: 'option Z', icon: '↧', onClick: onClick(), able: false },
-        ]
-        let temp = [];
-        
-        if(selected === -1) {
-            temp.push({...mock[parseInt(selected)]})
-        }
-            for (let i=0; i<mock.length; i++) {
-                if (isOptionAble(mock[i]) && i !== parseInt(selected)) {
-                    temp.push({...mock[i]})
-                }
-            }
-        
 
-        setFinalOptions(temp);
-        setTotalOptions(temp.length)
-        console.dir(temp)
-        console.dir(selected)
-    }, [selected])
+        let temp = [];
+        let longestNameLength = 0;
+        for (let i = 0; i < mock.length; i++) {
+            if (isOptionAble(mock[i])) {
+                temp.push({ ...mock[i] })
+            }
+            const nameLength = mock[i].name.length
+            if (longestNameLength < nameLength) {
+                longestNameLength = nameLength;
+            }
+        }
+        setExtendedOptionsList(temp);
+        setTotalOptions(temp.length);
+    }, [mock, selectedId])
+
+    useEffect(() => {
+        const finalWidth = (mock[selectedId].width).toString();
+        setWidth(finalWidth);
+    }, [isUnfold, mock, selectedId])
+
+    const foldStyling = () => {
+        let res = styles.fold;
+        if (isUnfold) {
+            res = styles.unfold
+        }
+        return res;
+    }
+
+    const renderIcon = (option) => {
+        return (
+            <>
+                {(option.icon) &&
+                    <div style={{paddingTop: '6px'}} className={styles.icon}>{option.icon}</div>              
+                }
+            </>
+        )
+    }
 
     return (
         <>
@@ -59,39 +134,39 @@ const SplitButton = (props) => {
                     {(totalOptions > 1) ?
                         <div className={styles.split}>
                             <>
-                                {isUnfold ?
-                                    <div style={{ totalOptions: 1 }} className={[styles.buttonList, isUnfold ? styles.unfold : styles.fold].join(' ')}>
-                                        {finalOptions.map((option, idx) => {
-                                            return (
-                                                <div className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
-                                                    onClick={() => {
-                                                        setIsUnfold(false);
-                                                        setSelected(parseInt(idx));
-                                                    }}
-                                                >
-                                                    {(option.icon?.length > 0) ?
-                                                        <div className={styles.icon}>{option.icon}</div>
-                                                        :
-                                                        <></>
-                                                    }
-                                                    <div className={styles.content}>{option.name}</div>
-                                                </div>
-                                            )
+                                <div className={[styles.buttonList, styles.top, foldStyling(), styles.button, styles.solo, styles.list].join(' ')}>
+                                    <div style={{ width: width }} className={styles.option}
+                                        onClick={() => {
+                                            setIsUnfold(false);
+                                            setSelectedId(parseInt(extendedOptionsList[selectedId].id));
+                                        }}>
+                                        {renderIcon(extendedOptionsList[selectedId])}
+                                        <div className={styles.content}>{extendedOptionsList[selectedId].name}</div>
+                                    </div>
+                                </div>
+                                {isUnfold &&
+                                    <div style={{zIndex: 99}} className={[styles.buttonList, styles.buttonListing, styles.bottom, foldStyling()].join(' ')}>
+                                        {extendedOptionsList.map((option, idx) => {
+                                            if (parseInt(idx) !== parseInt(selectedId))
+                                                return (
+                                                    <>
+                                                        <div style={{ width: width }} className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
+                                                            onClick={() => {
+                                                                setIsUnfold(false);
+                                                                setSelectedId(parseInt(option.id));
+                                                            }}
+                                                        >
+                                                            {renderIcon(option)}
+                                                            <div className={styles.content}>{option.name}</div>
+                                                        </div>
+                                                    </>
+                                                )
                                         })
                                         }
                                     </div>
-                                    :
-                                    <div className={[styles.buttonList, styles.button, styles.solo, styles.list].join(' ')}>
-                                        <div className={styles.option}>
-                                            {(finalOptions[selected].icon?.length > 0) ?
-                                                <div className={styles.icon}>{finalOptions[selected].icon}</div>
-                                                :
-                                                <></>
-                                            }
-                                            <div className={styles.content}>{finalOptions[selected].name}</div>
-                                        </div>
-                                    </div>
                                 }
+
+
                             </>
                             <div className={[styles.buttonArrow, styles.button, (!isUnfold ? styles.solo : undefined), styles.arrow].join(' ')}
                                 onClick={() => {
@@ -108,7 +183,8 @@ const SplitButton = (props) => {
                         :
                         <div className={[styles.buttonSolo, styles.button].join(' ')}>
                             <div className={styles.option}>
-                                <div className={styles.content}>{finalOptions[selected].name}</div>
+                                {renderIcon(extendedOptionsList[selectedId])}
+                                <div className={styles.content}>{extendedOptionsList[selectedId].name}</div>
                             </div>
                         </div>
                     }
