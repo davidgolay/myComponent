@@ -6,8 +6,8 @@ import { hoursMins, grainMatchTypes, grainIsMinutes, matchingTooltipTypes } from
 import stylesTooltip from "../../../components/Tooltips/tooltip.module.scss";
 import stylesComposed from "../../../components/Tooltips/tooltipComposed.module.scss";
 import styles from "./dateFormatter.module.scss";
-import Formatter, { getStyle } from "../Formatter";
-import Tooltip from "../../../components/Tooltips/ToolTip";
+import Formatter, { getStyle } from "../Formatters/Formatter";
+import Tooltip from "../Tooltips/ToolTip";
 
 const DateFormatter = (props) => {
   const [date, setDate] = useState(props.date ? props.date : null);
@@ -20,10 +20,6 @@ const DateFormatter = (props) => {
     props.granularity ? props.granularity : ["days"]
   );
   const [information, setInformation] = useState("");
-
-useEffect(() => {
-
-}, [dates, props.dates])
 
 
   const getTimespanText = (granularity) => {

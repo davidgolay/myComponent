@@ -2,9 +2,7 @@ import Head from "next/head";
 import React, { useState, Fragment } from "react";
 import moment from "moment";
 import styles from "../styles/Home.module.scss";
-import DateFormatter from "../components/Formatters/DateFormatter/DateFormatter";
-import stylesTooltip from "../components/Tooltips/tooltip.module.scss";
-import Example from "../components/Tooltips/Example";
+import SplitButton from "../components/Formatters/SplitButton/SplitButton";
 
 
 export default function Home() {
@@ -47,53 +45,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.container}>
-        <div className={styles.body}>
-          <div className={styles.container}>
-            {finalRowList.map((item, idx) => (
-              <React.Fragment key={idx}>
-                <div className={styles.row}>
-                  <div
-                    className={[styles.item, stylesTooltip.tooltip].join(" ")}
-                    data-tooltip={item.status}
-                  >
-                    {item.status}
-                  </div>
-                  <div className={styles.item}>
-                    <DateFormatter
-                      tooltip={item.tooltip}
-                      date={item.dates[0]}
-                      dates={item.dates}
-                      style="invalid"
-                      format={"DD/MM/YYYY"}
-                      granularity={item.granularity}
-                    />
-                  </div>
-                  <div className={styles.item}>
-                    <Example />
-                  </div>
-                  <div className={styles.item}>
-                  <DateFormatter    
-                      tooltip={item.tooltip}    
-                      date={item.dates[0]}
-                      dates={item.dates}
-                      format={"LL"}
-                      granularity={item.granularity}
-                      variant={'composed'}
-                      paletteState={[{state: true, palette: 'valid'}, {state: true, palette: 'invalid'}]}
-                    />
-                    </div>
-                  <div
-                    className={[styles.item, stylesTooltip.tooltip].join(" ")}
-                    data-tooltip={item.message}
-                  >
-                    {item.message}
-                  </div>
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
+      <div className={styles.sideblock}>
+        <SplitButton />
       </div>
     </div>
   );
