@@ -25,11 +25,6 @@ const SplitButton = (props) => {
     const [validate, setValidate] = useState(false);
     const [width, setWidth] = useState("330px");
 
-
-
-    const onClick = useCallback(() => {
-
-    }, [])
     //options
     let mock = useMemo(() => [
         {
@@ -80,7 +75,7 @@ const SplitButton = (props) => {
             able: true,
             width: '200px',
         },
-    ]);
+    ], []);
 
     const isOptionAble = (option) => {
         let isAble = (option.able === 'true' || option.able === true)
@@ -151,8 +146,8 @@ const SplitButton = (props) => {
                                         {extendedOptionsList.map((option, idx) => {
                                             if (parseInt(idx) !== parseInt(selectedId))
                                                 return (
-                                                    <>
-                                                        <div style={{ width: width }} className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
+                                                    <React.Fragment  key={'btn_' + idx}>
+                                                        <div style={{ width: width }} className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')}
                                                             onClick={() => {
                                                                 handleClick(parseInt(option.id));
                                                             }}
@@ -160,7 +155,7 @@ const SplitButton = (props) => {
                                                             {renderIcon(option)}
                                                             <div className={styles.content}>{option.name}</div>
                                                         </div>
-                                                    </>
+                                                    </React.Fragment>
                                                 )
                                         })}
                                     </div>
