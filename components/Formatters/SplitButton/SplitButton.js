@@ -127,6 +127,11 @@ const SplitButton = (props) => {
         )
     }
 
+    const handleClick = (id) => {
+        setIsUnfold(false);
+        setSelectedId(parseInt(id));
+    }
+
     return (
         <>
             {(typeof totalOptions !== 'undefined ' && totalOptions > 0) &&
@@ -136,24 +141,20 @@ const SplitButton = (props) => {
                             <>
                                 <div className={[styles.buttonList, styles.top, foldStyling(), styles.button, styles.solo, styles.list].join(' ')}>
                                     <div style={{ width: width }} className={styles.option}
-                                        onClick={() => {
-                                            setIsUnfold(false);
-                                            setSelectedId(parseInt(extendedOptionsList[selectedId].id));
-                                        }}>
+                                        onClick={() => { handleClick(extendedOptionsList[selectedId].id)}}>
                                         {renderIcon(extendedOptionsList[selectedId])}
                                         <div className={styles.content}>{extendedOptionsList[selectedId].name}</div>
                                     </div>
                                 </div>
                                 {isUnfold &&
-                                    <div style={{zIndex: 99}} className={[styles.buttonList, styles.buttonListing, styles.bottom, foldStyling()].join(' ')}>
+                                    <div className={[styles.buttonList, styles.buttonListing, styles.bottom, foldStyling()].join(' ')}>
                                         {extendedOptionsList.map((option, idx) => {
                                             if (parseInt(idx) !== parseInt(selectedId))
                                                 return (
                                                     <>
                                                         <div style={{ width: width }} className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
                                                             onClick={() => {
-                                                                setIsUnfold(false);
-                                                                setSelectedId(parseInt(option.id));
+                                                                handleClick(parseInt(option.id));
                                                             }}
                                                         >
                                                             {renderIcon(option)}
@@ -161,17 +162,12 @@ const SplitButton = (props) => {
                                                         </div>
                                                     </>
                                                 )
-                                        })
-                                        }
+                                        })}
                                     </div>
                                 }
-
-
                             </>
                             <div className={[styles.buttonArrow, styles.button, (!isUnfold ? styles.solo : undefined), styles.arrow].join(' ')}
-                                onClick={() => {
-                                    setIsUnfold(!isUnfold);
-                                }}
+                                onClick={() => {setIsUnfold(!isUnfold);}}
                             >
                                 <div className={styles.option}>
                                     <div className={[styles.content, (!isUnfold ? styles.reversed : undefined)].join(' ')}>

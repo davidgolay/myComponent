@@ -49,16 +49,6 @@ export default function Home() {
         <div>
           <SplitButton />
         </div>
-        <div>
-          <SplitButton />
-        </div>
-        <div>
-          <SplitButton />
-        </div>
-        <div>
-          <SplitButton />
-        </div>
-
       </div>
     </div>
   );

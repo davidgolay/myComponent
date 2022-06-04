@@ -121,6 +121,7 @@ $curves: ease-in-out;
     .buttonListing{
         position: absolute;
         top: 52px;
+        z-index: 100;
     }
 
     .closed {
@@ -166,6 +167,9 @@ $curves: ease-in-out;
                 color: $clr-ligth;
             }
         }
+    }
+    .arrow{
+        cursor: zoom-out;
     }
 
     .solo.arrow {
