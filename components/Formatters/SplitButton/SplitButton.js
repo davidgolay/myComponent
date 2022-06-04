@@ -6,9 +6,12 @@ import styles from "./customSplitButton.module.scss"
 
 const SplitButton = (props) => {
 
-    const [isUnfold, setIsUnfold] = useState(false);
+    /**
+     * Is split button state is opened/unfold or closed
+     */
+    const [isUnfold, setIsUnfold] = useState(true); //
     const [finalOptions, setFinalOptions] = useState([]);
-    const [totalOptions, setTotalOptions] = useState(0);
+    const [totalOptions, setTotalOptions] = useState(0); //Count variable of the total not disabled option
     const [selected, setSelected] = useState(0);
 
     const onClick = () => {
@@ -16,30 +19,38 @@ const SplitButton = (props) => {
     }
     //options:
 
+
     const isOptionAble = (option) => {
         let isAble = (option.able === 'true' || option.able === true)
         return isAble;
     }
 
     useEffect(() => {
-        let options_MOCK = [
-            { name: "Sauvegarder l'état actuel", icon: '↧', onClick: onClick(), able: 'true' },
+        let mock = [
+            { name: "Sauvegarder l'état actuel", icon: '↧', onClick: onClick(), able: false },
             { name: 'Provoquer le destin', icon: '↯', onClick: onClick(), able: true },
             { name: 'Exporter mon panier', icon: '↭', onClick: onClick(), able: false },
-            { name: 'Retourner produit', icon: '↩', onClick: onClick(), able: 'true' },
+            { name: 'Retourner produit', icon: '↩', onClick: onClick(), able: false },
             { name: 'Assigner à un collaborateur', icon: '↧', onClick: onClick(), able: true },
             { name: 'option Z', icon: '↧', onClick: onClick(), able: false },
         ]
         let temp = [];
-        for (const o of options_MOCK) {
-            if (isOptionAble(o)) {
-                temp.push(o)
-            }
+        
+        if(selected === -1) {
+            temp.push({...mock[parseInt(selected)]})
         }
+            for (let i=0; i<mock.length; i++) {
+                if (isOptionAble(mock[i]) && i !== parseInt(selected)) {
+                    temp.push({...mock[i]})
+                }
+            }
+        
+
         setFinalOptions(temp);
         setTotalOptions(temp.length)
-        console.dir(temp.length)
-    }, [])
+        console.dir(temp)
+        console.dir(selected)
+    }, [selected])
 
     return (
         <>
@@ -49,10 +60,10 @@ const SplitButton = (props) => {
                         <div className={styles.split}>
                             <>
                                 {isUnfold ?
-                                    <div style={{ totalOptions: 1 }} className={styles.buttonList}>
+                                    <div style={{ totalOptions: 1 }} className={[styles.buttonList, isUnfold ? styles.unfold : styles.fold].join(' ')}>
                                         {finalOptions.map((option, idx) => {
                                             return (
-                                                <div className={[styles.option, styles.unfold, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
+                                                <div className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')} key={'btn_' + idx}
                                                     onClick={() => {
                                                         setIsUnfold(false);
                                                         setSelected(parseInt(idx));
@@ -89,7 +100,7 @@ const SplitButton = (props) => {
                             >
                                 <div className={styles.option}>
                                     <div className={[styles.content, (!isUnfold ? styles.reversed : undefined)].join(' ')}>
-                                    <Arrow />
+                                        <Arrow />
                                     </div>
                                 </div>
                             </div>
