@@ -53,13 +53,11 @@ $curves: ease-in-out;
         // top right corner
         border-radius: $rds-medium;
         border: $bdr-dark-fat;
+        box-shadow: inset 0 0 2px $clr-dark;
         overflow: hidden;
 
         &.top{
             min-width: 200px;
-            .option{
-                //justify-content: space-between;
-            }
         }
 
         &.arrow{
@@ -118,6 +116,7 @@ $curves: ease-in-out;
         position: absolute;
         top: 0;
         left: calc(100% - $brd-width);
+        height: 100%;
         transition: $delay $curves;
 
         &:hover {
