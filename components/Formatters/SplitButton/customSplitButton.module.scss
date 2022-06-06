@@ -1,14 +1,12 @@
-$clr-primary: red;
 $clr-ligth: #f3f3f3;
-$hvr-light: #4c9c9c;
+$hvr-dark: #141b38;
 
 $clr-gray: #ccc;
-$clr-dark: #3a6767;
+$clr-dark: #141b38;
 
-$brd-width: 2px;
-$brd-width_x2: 4px;
-$bdr-gray-fat: 2px solid $clr-gray;
-$bdr-dark-fat: 2px solid $clr-dark;
+$brd-width: 1px;
+$bdr-gray-fat: $brd-width solid $clr-gray;
+$bdr-dark-fat: $brd-width solid $clr-dark;
 
 $rds-medium: 10px;
 
@@ -42,7 +40,7 @@ $curves: ease-in-out;
         }
 
         &:hover {
-            background: $hvr-light;
+            background: $hvr-dark;
             color: $clr-ligth;
         }
     }
@@ -79,8 +77,11 @@ $curves: ease-in-out;
         &.unfold.bottom {
             //  __________
             // |          |
+            border-radius: calc($rds-medium / 2);
             border-top-left-radius: 0px;
             border-top-right-radius: 0px;
+            
+
             border-top: transparent;
             width: 100%;
 
@@ -120,7 +121,7 @@ $curves: ease-in-out;
         transition: $delay $curves;
 
         &:hover {
-            background: $hvr-light;
+            background: $hvr-dark;
             color: $clr-ligth;
         }
 

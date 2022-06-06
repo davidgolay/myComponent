@@ -31,16 +31,13 @@ const SplitButton = (props) => {
             name: "Sauvegarder",
             icon: <Export />,
             onClick: (() => onClick()),
-            validationMessage: 'Etes-vous sûr de vouloir sauvegarder cet état?',
             able: true,
-            width: '320px',
         },
         {
             id: 1,
             name: 'Provoquer',
             icon: <Magic />,
             able: true,
-            width: '260px',
         },
         {
             id: 2,
@@ -48,16 +45,13 @@ const SplitButton = (props) => {
             icon: <Basket />,
             onClick: (() => onClick()),
             able: true,
-            width: '280px',
         },
         {
             id: 3,
             name: 'Retourner',
             icon: <Return />,
             onClick: (() => onClick()),
-            validationMessage: 'Etes-vous sûr de vouloir retourner ce produit?',
             able: true,
-            width: '250px',
         },
         {
             id: 4,
@@ -65,14 +59,12 @@ const SplitButton = (props) => {
             icon: <Assign />,
             onClick: () => onClick(),
             able: true,
-            width: '340px',
         },
         {
             id: 5,
             name: 'optionZ',
             icon: <Magic />, onClick: (() => onClick()),
             able: true,
-            width: '200px',
         },
     ], []);
 
@@ -82,16 +74,10 @@ const SplitButton = (props) => {
     }
 
     useEffect(() => {
-
         let temp = [];
-        let longestNameLength = 0;
         for (let i = 0; i < mock.length; i++) {
             if (isOptionAble(mock[i])) {
                 temp.push({ ...mock[i] })
-            }
-            const nameLength = mock[i].name.length
-            if (longestNameLength < nameLength) {
-                longestNameLength = nameLength;
             }
         }
         setExtendedOptionsList(temp);
@@ -143,7 +129,7 @@ const SplitButton = (props) => {
                                             if (parseInt(idx) !== parseInt(selectedId))
                                                 return (
                                                     <React.Fragment key={'btn_' + idx}>
-                                                        <div className={[styles.option, (idx == 0 ? styles.first : undefined)].join(' ')}
+                                                        <div className={styles.option}
                                                             onClick={() => {
                                                                 handleClick(parseInt(option.id));
                                                             }}
@@ -169,7 +155,7 @@ const SplitButton = (props) => {
                         </div>
                         :
                         //BOUTON SOLO
-                        <div className={[styles.solo].join(' ')}>
+                        <div className={styles.solo}>
                             <div className={styles.option}>
                                 {renderIcon(extendedOptionsList[selectedId])}
                                 <div className={styles.content}>{extendedOptionsList[selectedId].name}</div>
